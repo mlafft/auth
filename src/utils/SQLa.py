@@ -1,12 +1,12 @@
 from src.infrastructure.Storage_Interface   import Storage_Interface
 from src.models                             import Model
-from src.database                           import session
+from src.database                           import session_maker
 
 
 class SQLa (Storage_Interface):
 
     async def add (self, model) -> int:
-        async with session () as trans:
+        async with session_maker () as trans:
 
             try:
                 trans.add (model)
@@ -20,7 +20,7 @@ class SQLa (Storage_Interface):
             
     
     async def get (self, model_type, id) -> Model | None | int: 
-        async with session () as trans:
+        async with session_maker () as trans:
 
             try:
                 model = await trans.get (model_type, id)

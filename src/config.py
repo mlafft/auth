@@ -1,10 +1,7 @@
-from abc import abstractmethod
 import os
-from functools          import lru_cache
-from pathlib            import Path
+
 from authx              import AuthX, AuthXConfig
-from pydantic           import Field
-from pydantic_settings  import BaseSettings, SettingsConfigDict
+from pydantic_settings  import BaseSettings
 
 
 config = AuthXConfig ()
@@ -26,15 +23,13 @@ NEW_USER = f"{GREEN}INFO{RESET}:     Заргестрирован новый п�
 DB_URL = os.getenv ('DB_URL')
 
 
-# class Settings:
-
 class Settings (BaseSettings):
 
     PG_HOST:        str | None = os.getenv ('PG_HOST')
     PG_PORT:        str | None = os.getenv ('PG_PORT')
     PG_USER:        str | None = os.getenv ('PG_USER')
     PG_PASS:        str | None = os.getenv ('PG_PASS')
-    PG_DATABASE:    str | None = os.getenv ('PG_DATABASE')
+    PG_NAME:        str | None = os.getenv ('PG_NAME')
     DB_DIALECT:     str | None = "postgresql+asyncpg"
 
     # model_config = {"env_file": ".env"}
@@ -42,7 +37,7 @@ class Settings (BaseSettings):
 
     @property
     def db_url(self) -> str:
-        return (f"{self.DB_DIALECT}://{self.PG_USER}:{self.PG_PASS}@{self.PG_HOST}:"f"{self.PG_PORT}/{self.PG_DATABASE}")
+        return (f"{self.DB_DIALECT}://{self.PG_USER}:{self.PG_PASS}@{self.PG_HOST}:"f"{self.PG_PORT}/{self.PG_NAME}")
     
     # @property
     # def my_print (self):
@@ -50,5 +45,3 @@ class Settings (BaseSettings):
 
 
 settings = Settings ()
-
-# print (Settings.my_print)

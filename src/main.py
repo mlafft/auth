@@ -5,27 +5,15 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles     import StaticFiles
 from fastapi.responses       import JSONResponse
 from authx.exceptions        import MissingTokenError
-from contextlib              import asynccontextmanager
 from src                     import router
-from src.database            import init_db, reset_db
-from src.config              import START, READY, STOP
-
-
-@asynccontextmanager
-async def lifecycle (app: FastAPI):
-    print (START)
-    await init_db ()
-    print (READY)
-
-    yield
-    await reset_db ()
-    print (STOP)
+from src.services.lifecycle  import lifecycle
 
 
 app = FastAPI (lifespan=lifecycle)
-app.include_router (router)
+
 app.add_middleware( CORSMiddleware, allow_origins=["*"], allow_methods=["POST", "OPTIONS"] )
 app.mount ( "/static", StaticFiles(directory="./static"), name="static" )
+app.include_router (router)
 
 
 @app.exception_handler (MissingTokenError)

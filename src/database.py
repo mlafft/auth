@@ -3,18 +3,23 @@ from src.models             import Model
 from src.config             import DB_URL
 
 
-engine    = create_async_engine (f"postgresql+asyncpg://{DB_URL}")
-session   = async_sessionmaker (engine, expire_on_commit=False)
+async_engine  = create_async_engine (f"postgresql+asyncpg://{DB_URL}")
+session_maker = async_sessionmaker (async_engine, expire_on_commit=False)
 
 
 async def init_db ():
-    async with engine.begin () as conn:
+    
+    async with async_engine.begin () as conn:
         await conn.run_sync (Model.metadata.create_all)
 
+
 async def reset_db ():
-    async with engine.begin () as conn:
+    
+    async with async_engine.begin () as conn:
         await conn.run_sync (Model.metadata.drop_all)
 
+
 async def get_session ():
-    async with session () as trans:
+    
+    async with session_maker () as trans:
         yield trans
