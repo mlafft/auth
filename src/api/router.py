@@ -1,6 +1,6 @@
 from fastapi                import APIRouter, Depends
 from sqlalchemy             import select
-from src.dependencies       import SessionDep, Service_dep
+from src.dependencies       import Session_dep, Service_dep
 from src.models             import UserModel
 from src.config             import security
 
@@ -12,7 +12,7 @@ async def protected ():
 
 
 @router.get( '/users', summary="список пользователей", tags=['API'] )
-async def list (session: SessionDep):
+async def list (session: Session_dep):
     
     query  = select (UserModel)
     result = await session.execute (query)

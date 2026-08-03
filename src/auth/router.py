@@ -1,6 +1,6 @@
 from fastapi                import APIRouter, HTTPException,Response
 from sqlalchemy             import select
-from src.dependencies       import SessionDep
+from src.dependencies       import Session_dep
 from src.models             import UserModel
 from src.schemas            import UserDataSchema
 from src.config             import security
@@ -17,7 +17,7 @@ async def regestration (credentials: UserDataSchema, service: Service_dep):
 
 
 @router.post ('/authentication', summary='вход', tags=['Auth'])
-async def login  (credentials: UserDataSchema, session: SessionDep, response: Response):
+async def login  (credentials: UserDataSchema, session: Session_dep, response: Response):
     
     query = select (UserModel).where (UserModel.password == credentials.password)
     result = await session.execute (query)
