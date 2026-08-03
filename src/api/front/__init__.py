@@ -1,0 +1,1 @@
+from src.api.front.router import router as front_router
