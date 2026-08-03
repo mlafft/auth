@@ -5,7 +5,7 @@ from src.models                             import Model
 class Storage_Interface (ABC):
 
     @abstractmethod
-    async def add (self, model) -> int:
+    async def add (self, entity) -> int:
         raise NotImplementedError
     
 

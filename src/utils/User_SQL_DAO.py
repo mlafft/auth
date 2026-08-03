@@ -1,12 +1,20 @@
-from src.infrastructure.Storage_Interface   import Storage_Interface
+from src.interfaces.Storage_Interface       import Storage_Interface
 from src.models                             import Model
 from src.database                           import session_maker
+from src.models                             import UserModel
 
 
-class SQLa (Storage_Interface):
+class User_SQL_DAO (Storage_Interface):
 
-    async def add (self, model) -> int:
+
+    def to_model (self, entity) -> UserModel:
+            return UserModel ( username=entity.username, password=entity.password, email=entity.email )
+    
+
+    async def add (self, entity) -> int:
         async with session_maker () as trans:
+
+            model = self.to_model(entity)
 
             try:
                 trans.add (model)

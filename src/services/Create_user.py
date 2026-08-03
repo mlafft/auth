@@ -1,7 +1,7 @@
-from src.infrastructure.Storage_Interface   import Storage_Interface
+from src.interfaces.Storage_Interface       import Storage_Interface
 from src.entities                           import User
 from src.config                             import NEW_USER
-from src.models import UserModel
+from src.models                             import UserModel
 
 class Create_user_service ():
 
